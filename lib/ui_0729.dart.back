@@ -1,0 +1,66 @@
+import 'package:flutter/material.dart';
+
+// 달력 출력
+// DateTime.now()
+class Home0729 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("달력")),
+      body: Column(
+        children: [
+          //
+          Row(
+            children: [
+              Expanded(child: Center(child: Text('일'))),
+              Expanded(child: Center(child: Text('월'))),
+              Expanded(child: Center(child: Text('화'))),
+              Expanded(child: Center(child: Text('수'))),
+              Expanded(child: Center(child: Text('목'))),
+              Expanded(child: Center(child: Text('금'))),
+              Expanded(child: Center(child: Text('토'))),
+            ],
+          ),
+          grid(context),
+        ],
+      ),
+    );
+  }
+
+  Widget grid(BuildContext context) {
+    final date = DateTime(2024, 2, 1);
+    int endOfMonth =
+        [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][date.month - 1];
+    // 윤달
+    if (date.month == 2 && date.year % 4 == 0) {
+      endOfMonth++;
+    }
+    final devideWidth = MediaQuery.of(context).size.width;
+    final days = List.generate(endOfMonth, (index) => "${index + 1}");
+    final emptyValues = List.generate(
+      date.weekday == 7 ? 0 : date.weekday,
+      (index) => "",
+    );
+    final cellWidth = devideWidth / 7;
+    final cellRatio = 0.5;
+    final cellHeight = cellWidth / cellRatio;
+
+    final target = [...emptyValues, ...days];
+    return Container(
+      color: Colors.blue,
+      height: cellHeight * (target.length / 7).ceil(),
+      child: GridView.builder(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 7,
+          crossAxisSpacing: 0,
+          childAspectRatio: cellRatio,
+          mainAxisSpacing: 1,
+        ),
+        itemCount: target.length,
+        itemBuilder: (context, index) {
+          return Center(child: Text(target[index]));
+        },
+      ),
+    );
+  }
+}
