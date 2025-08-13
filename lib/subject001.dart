@@ -9,6 +9,28 @@ class DialPage extends StatefulWidget {
 class _DialPageState extends State<DialPage> {
   String numbers = "";
 
+  void updateNumbers(String nextNumbers) {
+    nextNumbers = nextNumbers.replaceAll('-', '');
+    if (!nextNumbers.startsWith("010")) {
+      setState(() {
+        numbers = nextNumbers;
+      });
+      return;
+    }
+    String result = "";
+
+    for (int i = 0; i < nextNumbers.length; i++) {
+      // 3번째 문자 뒤, 7번째 문자 뒤에 '-' 추가
+      if (i == 3 || i == 7) {
+        result += "-";
+      }
+      result += nextNumbers[i];
+    }
+    setState(() {
+      numbers = result;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,6 +93,25 @@ class _DialPageState extends State<DialPage> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
+                      if (numbers.isEmpty) {
+                        showCupertinoDialog(
+                          context: context,
+                          builder: (context) {
+                            return CupertinoAlertDialog(
+                              title: Text("번호를 입력해 주세요"),
+                              actions: [
+                                CupertinoDialogAction(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text("확인"),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                        return;
+                      }
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -98,9 +139,10 @@ class _DialPageState extends State<DialPage> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      setState(() {
-                        numbers = numbers.substring(0, numbers.length - 1);
-                      });
+                      if (numbers.isEmpty) {
+                        return;
+                      }
+                      updateNumbers(numbers.substring(0, numbers.length - 1));
                     },
                     child: SizedBox(
                       height: 90,
@@ -126,7 +168,7 @@ class _DialPageState extends State<DialPage> {
       child: GestureDetector(
         onTap: () {
           setState(() {
-            numbers += numberText;
+            updateNumbers(numbers + numberText);
           });
         },
         child: Container(
