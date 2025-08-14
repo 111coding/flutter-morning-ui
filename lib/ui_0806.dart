@@ -62,7 +62,78 @@ class Home0806 extends StatelessWidget {
                   },
                 ),
               ),
-              Expanded(child: Container(height: 50, color: Colors.lightGreen)),
+              // TODO 나머지 바로 풀이 진행
+              Expanded(
+                child: ListView(
+                  children: [
+                    IntrinsicHeight(
+                      child: Row(
+                        children: [
+                          Column(
+                            children: [
+                              SizedBox.square(
+                                dimension: 20,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: Colors.blue,
+                                      width: 3,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 8),
+                              // 세로줄
+                              Expanded(
+                                child: Container(
+                                  width: 4,
+                                  height: double.infinity,
+                                  color: Colors.blue,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(width: 20),
+                          Expanded(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 30,
+                                vertical: 15,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          "Wakeup",
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                      Text("7:00 AM"),
+                                    ],
+                                  ),
+                                  SizedBox(height: 4),
+                                  Text("test" * 200),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               //
             ],
           ),
