@@ -79,9 +79,31 @@ class _LottoPageState extends State<LottoPage> {
   }
 
   Widget numberBox(String number) {
+    // 10 이하 amber
+    // 20 이하 blue
+    // 30 이하 red
+    // 40 이하 grey
+    // 45 이하 green
+    // 물음표 => purple
+    int? parsedNumber = int.tryParse(number);
+    Color color = Colors.purple;
+    if (parsedNumber != null) {
+      if (parsedNumber <= 10) {
+        color = Colors.amber;
+      } else if (parsedNumber <= 20) {
+        color = Colors.blue;
+      } else if (parsedNumber <= 30) {
+        color = Colors.red;
+      } else if (parsedNumber <= 40) {
+        color = Colors.grey;
+      } else {
+        color = Colors.green;
+      }
+    }
+
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.amber, width: 5),
+        border: Border.all(color: color, width: 5),
         shape: BoxShape.circle,
       ),
       width: 50,
