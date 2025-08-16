@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_morning_ui/lotto_page.dart';
 import 'package:flutter_morning_ui/subject001.dart';
 import 'package:flutter_morning_ui/ui_0724.dart';
 import 'package:flutter_morning_ui/ui_0729.dart';
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: DialPage(),
+      home: LottoPage(),
     );
   }
 }
