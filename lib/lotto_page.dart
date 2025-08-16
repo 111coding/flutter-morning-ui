@@ -8,18 +8,47 @@ class LottoPage extends StatefulWidget {
 }
 
 class _LottoPageState extends State<LottoPage> {
-  Set<int> numberSet = {};
+  List<Set<int>> results = [];
 
   @override
   Widget build(BuildContext context) {
-    List<int> numberList = numberSet.toList();
-    numberList.sort();
-    List<String> numbetStringList = [];
-    for (int n in numberList) {
-      numbetStringList.add('$n');
-    }
-    if (numbetStringList.isEmpty) {
-      numbetStringList = ['?', '?', '?', '?', '?', '?'];
+    List<Row> rowList = [];
+    if (results.isEmpty) {
+      rowList.add(
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            numberBox('?'),
+            numberBox('?'),
+            numberBox('?'),
+            numberBox('?'),
+            numberBox('?'),
+            numberBox('?'),
+          ],
+        ),
+      );
+    } else {
+      for (var result in results) {
+        List<int> numberList = result.toList();
+        numberList.sort();
+        List<String> numbetStringList = [];
+        for (int n in numberList) {
+          numbetStringList.add('$n');
+        }
+        rowList.add(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              numberBox(numbetStringList[0]),
+              numberBox(numbetStringList[1]),
+              numberBox(numbetStringList[2]),
+              numberBox(numbetStringList[3]),
+              numberBox(numbetStringList[4]),
+              numberBox(numbetStringList[5]),
+            ],
+          ),
+        );
+      }
     }
 
     return Scaffold(
@@ -36,17 +65,7 @@ class _LottoPageState extends State<LottoPage> {
             ),
           ),
           SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              numberBox(numbetStringList[0]),
-              numberBox(numbetStringList[1]),
-              numberBox(numbetStringList[2]),
-              numberBox(numbetStringList[3]),
-              numberBox(numbetStringList[4]),
-              numberBox(numbetStringList[5]),
-            ],
-          ),
+          ...rowList,
           SizedBox(height: 20),
           Container(
             width: double.infinity,
@@ -60,8 +79,12 @@ class _LottoPageState extends State<LottoPage> {
                   int randomValue = random.nextInt(45); // 0 이상 45 미만
                   newNumbers.add(randomValue + 1);
                 }
+
                 setState(() {
-                  numberSet = newNumbers;
+                  if (results.length == 5) {
+                    results.removeAt(0);
+                  }
+                  results.add(newNumbers);
                 });
               },
               style: ElevatedButton.styleFrom(
@@ -106,6 +129,7 @@ class _LottoPageState extends State<LottoPage> {
         border: Border.all(color: color, width: 5),
         shape: BoxShape.circle,
       ),
+      margin: EdgeInsets.only(bottom: 10),
       width: 50,
       height: 50,
       alignment: Alignment.center,
