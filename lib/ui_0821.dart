@@ -79,19 +79,26 @@ class _MyPainter extends CustomPainter {
     brush.color = Colors.red;
     brush.strokeWidth = 3;
     final values = [40, 25, 15, 60, 70, 85, 50];
+
+    final points = <Offset>[];
+
     for (var i = 0; i < values.length; i++) {
       final v = values[i];
-      canvas.drawCircle(
+      points.add(
         Offset(
           halfBarWidth + (barWidth + 10) * i,
           maxHeight - maxHeight * v / 100,
         ),
-        8,
-        brush,
       );
+      canvas.drawCircle(points[i], 8, brush);
 
       // canvas.drawLine 이용해서 각 점들 선 그리기!
-      // TODO 곡선으로 바꾸기!
+
+      // TODO 곡선으로 바꾸기! (잠정적 연기 - 로직이 너무 복잡)
+    }
+
+    for (var i = 1; i < points.length; i++) {
+      canvas.drawLine(points[i - 1], points[i], brush);
     }
 
     // canvas.drawLine(
